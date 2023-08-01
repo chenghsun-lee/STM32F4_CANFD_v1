@@ -150,7 +150,7 @@ void APP_Initialize(void)
 		//20230726 YW
 		//not sure 
 		RCC_AHB1PeriphClockCmd( RCC_INT_IN|RCC_INT_TX_IN|RCC_INT_RX_IN|RCC_LED0_PIN|RCC_S1_PIN , ENABLE); 	
-		//RCC_APB1PeriphClockCmd( RCC_APB1Periph_AFIO , ENABLE); 	
+		RCC_APB2PeriphClockCmd(RCC_APB2Periph_SPI1, ENABLE);	//RCC_APB1PeriphClockCmd( RCC_APB1Periph_AFIO , ENABLE); 	
 		//GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable,ENABLE);
 	
 		/**
@@ -583,7 +583,7 @@ void APP_TransmitSwitchState(void)
 				a=(a+1)%10+20;
         if (newSwitchState.S1 == APP_SWITCH_PRESSED) txd[0] += 0x10 ;
 				
-				for(int i=0;i<1000000;i++){
+				for(int i=0;i<10000000;i++){
 						Nop();
 						Nop();
 					}

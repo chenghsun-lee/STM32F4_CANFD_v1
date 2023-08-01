@@ -79,19 +79,31 @@ void spi_master_init(void)
   RCC_AHB1PeriphClockCmd(RCC_APB2Periph_GPIO_SPI_FLASH_CS, ENABLE); 
 	
 	
+	//20230801
+	
+	GPIO_DeInit(GPIOA);
+  GPIO_DeInit(GPIOA);
+  GPIO_DeInit(GPIOA);
+  
+	GPIO_PinAFConfig(GPIOA, GPIO_PinSource5, GPIO_AF_SPI1);
+  GPIO_PinAFConfig(GPIOA, GPIO_PinSource6, GPIO_AF_SPI1);    
+  GPIO_PinAFConfig(GPIOA, GPIO_PinSource7, GPIO_AF_SPI1);
+	
+	
 
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_7;
-	//20230726 YW
+	//20230726
   //GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
 	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+  GPIO_InitStructure.GPIO_PuPd  = GPIO_PuPd_DOWN;
   GPIO_Init(GPIOA, &GPIO_InitStructure);
 	
 
-								  
+	
   GPIO_InitStructure.GPIO_Pin = SPI_FALSH_CS_PIN;	
-	//20230726 YW
+	//20230726 
   //GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;	
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
 	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
@@ -100,8 +112,11 @@ void spi_master_init(void)
 	
 
 	
+	SPI_FLASH_CS_LOW();
+  //SPI_FLASH_CS_HIGH();
 	
-  SPI_FLASH_CS_HIGH();
+	//SPI_I2S_DeInit(SPI1); //20230801
+	
   /* SPI1 Config -------------------------------------------------------------*/ 								  
   SPI_InitStructure.SPI_Direction = SPI_Direction_2Lines_FullDuplex;
   SPI_InitStructure.SPI_Mode = SPI_Mode_Master;
@@ -123,7 +138,7 @@ int8_t spi_master_transfer(uint8_t *SpiTxData, uint8_t *SpiRxData, uint16_t spiT
 {
 	uint16_t pos = 0;
 	
-	
+		//SPI_FLASH_CS_HIGH();
 		 SPI_FLASH_CS_LOW();
 	
 	while(pos < spiTransferSize)
